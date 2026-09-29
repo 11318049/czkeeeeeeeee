@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maison de Douceur - 雲朵馬卡龍法式奢華千層蛋糕</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        macaron: {
+                            rose: '#fbe2e8',
+                            roseDark: '#f472b6',
+                            roseDeep: '#db2777',
+                            mint: '#e6f6ee',
+                            mintDark: '#34d399',
+                            mintDeep: '#059669',
+                            lavender: '#f3e8ff',
+                            lavenderDark: '#c084fc',
+                            cream: '#fffbeb',
+                            creamDark: '#fbbf24',
+                            gold: '#d97706',
+                            cocoa: '#4a2e2b'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Noto Serif TC', 'Georgia', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'PingFang TC', 'Noto Sans TC', 'sans-serif'],
+                    },
+                    animation: {
+                        'float-slow': 'float 6s ease-in-out infinite',
+                        'float-fast': 'float 3.5s ease-in-out infinite',
+                        'spin-slow': 'spin 25s linear infinite',
+                        'pulse-gentle': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-16px) rotate(4deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- GSAP & ScrollTrigger for Parallax Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styling & Macaron Visual Styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+        body {
+            background-color: #fdfbf7;
+            color: #332220;
+            font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism cards with subtle pastel tint */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(253, 226, 233, 0.8);
+        }
+
+        .glass-card-macaron {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 245, 248, 0.6) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(244, 114, 182, 0.2);
+            box-shadow: 0 10px 30px -5px rgba(251, 207, 216, 0.3);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card-macaron:hover {
+            transform: translateY(-6px);
+            border-color: rgba(244, 114, 182, 0.5);
+            box-shadow: 0 20px 40px -10px rgba(236, 72, 153, 0.2);
+        }
+
+        .text-gradient-rose {
+            background: linear-gradient(135deg, #be185d 0%, #e11d48 40%, #db2777 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #b45309 0%, #d97706 50%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .parallax-element {
+            will-change: transform;
+        }
+
+        /* Image hover effect */
+        .img-zoom-container {
+            overflow: hidden;
+            border-radius: 1.5rem;
+        }
+        .img-zoom-container img {
+            transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .img-zoom-container:hover img {
+            transform: scale(1.08);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-pink-200 selection:text-pink-900">
+
+    <!-- Floating Parallax Food Particles (Macaron Shells, Strawberries, Flowers) -->
+    <div class="fixed inset-0 pointer-events-none z-20 overflow-hidden" id="parallax-container">
+        <!-- Floating Macaron Shell 1 (Pink) -->
+        <div class="parallax-element absolute top-[12%] left-[4%] opacity-80 animate-float-slow" data-speed="-0.25">
+            <div class="w-14 h-10 rounded-t-full rounded-b-xl bg-gradient-to-b from-pink-300 to-pink-400 border-b-4 border-pink-500 shadow-md flex items-center justify-center rotate-12">
+                <span class="text-[10px] text-white opacity-80 font-bold">✨</span>
+            </div>
+        </div>
+        <!-- Floating Strawberry 2 -->
+        <div class="parallax-element absolute top-[38%] right-[5%] opacity-90 animate-float-fast" data-speed="0.35">
+            <div class="w-12 h-12 rounded-full bg-rose-100/80 p-2 shadow-lg border border-rose-200 flex items-center justify-center text-rose-500 text-2xl rotate-[-15deg]">🍓</div>
+        </div>
+        <!-- Floating Pistachio Macaron 3 (Green) -->
+        <div class="parallax-element absolute top-[68%] left-[6%] opacity-80 animate-float-slow" data-speed="-0.3">
+            <div class="w-12 h-8 rounded-t-full rounded-b-lg bg-gradient-to-b from-emerald-200 to-emerald-300 border-b-2 border-emerald-400 shadow-sm rotate-[-20deg]"></div>
+        </div>
+        <!-- Floating Lavender Petal 4 -->
+        <div class="parallax-element absolute top-[82%] right-[10%] opacity-85 animate-float-fast" data-speed="0.2">
+            <div class="w-8 h-8 rounded-full bg-purple-200/60 blur-[0.5px] border border-purple-300 flex items-center justify-center text-purple-600 text-sm">🌸</div>
+        </div>
+    </div>
+
+    <!-- Sticky Glass Navigation Bar -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-panel border-b border-pink-100/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Brand Logo & Name (Maison de Douceur) -->
+            <a href="#" class="flex items-center space-x-3 group">
+                <!-- SVG Custom Bakery Logo -->
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-pink-400 via-rose-300 to-amber-200 flex items-center justify-center shadow-md shadow-rose-200/50 group-hover:scale-105 transition-transform duration-300">
+                    <svg class="w-6 h-6 text-white drop-shadow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z" fill="rgba(255,255,255,0.3)"/>
+                        <circle cx="12" cy="12" r="4" fill="white" stroke="#db2777"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-wider text-gradient-rose font-serif block leading-none">Maison de Douceur</span>
+                    <span class="text-[10px] tracking-[0.2em] text-pink-700/70 font-semibold uppercase block mt-1">法式馬卡龍手作甜點</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-macaron-cocoa/80">
+                <a href="#hero" class="hover:text-pink-600 transition-colors">產品總覽</a>
+                <a href="#craftsmanship" class="hover:text-pink-600 transition-colors">匠心工藝</a>
+                <a href="#flavors" class="hover:text-pink-600 transition-colors">夢幻風味</a>
+                <a href="#specifications" class="hover:text-pink-600 transition-colors">尺寸規格</a>
+                <a href="#reviews" class="hover:text-pink-600 transition-colors">星級評價</a>
+            </nav>
+
+            <!-- Top Header Action -->
+            <div class="flex items-center space-x-3">
+                <button onclick="openOrderModal()" class="px-5 py-2.5 rounded-full text-xs font-bold bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white shadow-lg shadow-pink-500/25 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2">
+                    <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                    <span>線上預訂</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative pt-20">
+
+        <!-- Hero Section -->
+        <section id="hero" class="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-12 px-4 bg-gradient-to-b from-pink-50/60 via-amber-50/30 to-fuchsia-50/40">
+            <!-- Background Parallax Glowing Orbs -->
+            <div class="absolute inset-0 pointer-events-none">
+                <div id="hero-glow-1" class="parallax-element absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-pink-200/50 rounded-full blur-[140px]"></div>
+                <div id="hero-glow-2" class="parallax-element absolute top-1/3 left-1/4 w-[400px] h-[400px] bg-amber-200/40 rounded-full blur-[120px]"></div>
+            </div>
+
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 py-8">
+                
+                <!-- Left Text Content Column -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                    
+                    <!-- Product Category Badge -->
+                    <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-white/90 border border-pink-200 text-xs font-semibold text-pink-700 shadow-sm backdrop-blur-md">
+                        <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+                        <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i>
+                        <span>2026 法式頂級賞評金獎年度新品</span>
+                    </div>
+
+                    <!-- Product Name & Main Title -->
+                    <div class="space-y-3">
+                        <p class="text-sm sm:text-base font-bold uppercase tracking-[0.25em] text-pink-600 font-serif">Product Showcase</p>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-macaron-cocoa/90 font-serif">Le Nuage 雲朵系列</h2>
+                        <h1 id="hero-title" class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-gradient-rose font-serif leading-[1.15]">
+                            雲朵馬卡龍<br>法式奢華千層蛋糕
+                        </h1>
+                    </div>
+
+                    <!-- Product Description (產品簡述) -->
+                    <p id="hero-description" class="text-base sm:text-lg text-macaron-cocoa/80 max-w-2xl font-normal leading-relaxed">
+                        選用 100% 法國伊斯尼 A.O.P. 原產地認證奶油，層層鋪疊 72 層手作微脆千層派皮，搭配特級杏仁酥脆馬卡龍頂飾與苗栗大湖新鮮直送草莓。於舌尖舒展優雅而浪漫的甘甜篇章。
+                    </p>
+
+                    <!-- Feature Tags Bar -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs font-medium text-pink-900/80 pt-2">
+                        <span class="px-3 py-1.5 rounded-xl bg-pink-100/80 border border-pink-200 flex items-center gap-1.5">
+                            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-pink-600"></i>
+                            法國伊斯尼發酵奶油
+                        </span>
+                        <span class="px-3 py-1.5 rounded-xl bg-emerald-100/80 border border-emerald-200 flex items-center gap-1.5 text-emerald-900">
+                            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-600"></i>
+                            72層手工極薄派皮
+                        </span>
+                        <span class="px-3 py-1.5 rounded-xl bg-amber-100/80 border border-amber-200 flex items-center gap-1.5 text-amber-900">
+                            <i data-lucide="check-circle" class="w-3.5 h-3.5 text-amber-600"></i>
+                            當日新鮮現做直送
+                        </span>
+                    </div>
+
+                    <!-- Dual CTA Buttons (雙 CTA 按鈕: 立即購買, 了解更多) -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <!-- Primary CTA Button (立即購買) -->
+                        <button onclick="openOrderModal()" class="w-full sm:w-auto px-8 py-4 rounded-full text-sm font-bold bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white shadow-xl shadow-pink-400/30 transition-all transform hover:-translate-y-1 active:translate-y-0 flex items-center justify-center gap-2 group">
+                            <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                            <span>立即預訂購買 (NT$ 1,280起)</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+
+                        <!-- Secondary CTA Button (了解更多) -->
+                        <a href="#craftsmanship" class="w-full sm:w-auto px-8 py-4 rounded-full text-sm font-bold bg-white/90 hover:bg-white text-macaron-cocoa border border-pink-200 hover:border-pink-300 shadow-md transition-all flex items-center justify-center gap-2 group">
+                            <i data-lucide="info" class="w-4 h-4 text-pink-500"></i>
+                            <span>了解更多食材工藝</span>
+                            <i data-lucide="chevron-down" class="w-4 h-4 group-hover:translate-y-0.5 transition-transform text-pink-500"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+                <!-- Right High-Quality Cake Image Showcase Column -->
+                <div class="lg:col-span-5 relative perspective-1000">
+                    <div id="hero-cake-card" class="relative rounded-[2.5rem] p-4 glass-card-macaron border-2 border-white/80 shadow-2xl overflow-hidden group">
+                        
+                        <!-- Main Cake Visual Container (High Resolution Reliable Visual) -->
+                        <div class="img-zoom-container rounded-3xl relative aspect-[4/5] bg-gradient-to-br from-pink-100 via-rose-50 to-amber-50 flex items-center justify-center p-0 shadow-inner">
+                            <img id="hero-cake-img" 
+                                 src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 1000' width='100%' height='100%'><defs><linearGradient id='bg' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23fce7f3'/><stop offset='50%' stop-color='%23fff1f2'/><stop offset='100%' stop-color='%23fef3c7'/></linearGradient><linearGradient id='macaron' x1='0%' y1='0%' x2='0%' y2='100%'><stop offset='0%' stop-color='%23f472b6'/><stop offset='50%' stop-color='%23ec4899'/><stop offset='100%' stop-color='%23db2777'/></linearGradient><linearGradient id='pastry' x1='0%' y1='0%' x2='100%' y2='0%'><stop offset='0%' stop-color='%23d97706'/><stop offset='50%' stop-color='%23f59e0b'/><stop offset='100%' stop-color='%23b45309'/></linearGradient><linearGradient id='cream' x1='0%' y1='0%' x2='0%' y2='100%'><stop offset='0%' stop-color='%23ffffff'/><stop offset='100%' stop-color='%23fef3c7'/></linearGradient><filter id='shadow' x='-10%' y='-10%' width='130%' height='130%'><feDropShadow dx='0' dy='15' stdDeviation='20' flood-color='%239d174d' flood-opacity='0.15'/></filter></defs><rect width='800' height='1000' fill='url(%23bg)'/><circle cx='400' cy='450' r='320' fill='%23fbcfe8' opacity='0.3' filter='blur(40px)'/><g filter='url(%23shadow)'><ellipse cx='400' cy='780' rx='280' ry='40' fill='%23fda4af' opacity='0.4'/><ellipse cx='400' cy='770' rx='250' ry='25' fill='%23ffffff'/><g transform='translate(180, 480)'><rect x='0' y='140' width='440' height='30' rx='6' fill='url(%23pastry)'/><rect x='20' y='110' width='400' height='30' rx='15' fill='url(%23cream)'/><circle cx='60' cy='125' r='12' fill='%23ffffff'/><circle cx='120' cy='125' r='12' fill='%23ffffff'/><circle cx='180' cy='125' r='12' fill='%23ffffff'/><circle cx='240' cy='125' r='12' fill='%23ffffff'/><circle cx='300' cy='125' r='12' fill='%23ffffff'/><circle cx='360' cy='125' r='12' fill='%23ffffff'/><rect x='0' y='80' width='440' height='30' rx='6' fill='url(%23pastry)'/><rect x='20' y='50' width='400' height='30' rx='15' fill='url(%23cream)'/><rect x='0' y='20' width='440' height='30' rx='6' fill='url(%23pastry)'/></g><g transform='translate(400, 360)'><path d='M-140,0 C-140,-90 140,-90 140,0 Z' fill='url(%23macaron)'/><rect x='-145' y='-2' width='290' height='14' rx='7' fill='%23be185d' opacity='0.6'/><path d='M-130,-10 Q0,-40 130,-10' stroke='%23ffffff' stroke-width='6' fill='none' opacity='0.4'/><ellipse cx='0' cy='20' rx='135' ry='25' fill='url(%23cream)'/><path d='M-140,40 C-140,120 140,120 140,40 Z' fill='url(%23macaron)'/><rect x='-145' y='32' width='290' height='12' rx='6' fill='%23be185d' opacity='0.6'/></g><g transform='translate(400, 230)'><path d='M0,-50 L35,20 L-35,20 Z' fill='%23e11d48' rx='10'/><path d='M-30,20 Q0,-20 30,20 Z' fill='%23be185d'/><circle cx='-10' cy='-10' r='2' fill='%23fef08a'/><circle cx='10' cy='0' r='2' fill='%23fef08a'/><circle cx='0' cy='10' r='2' fill='%23fef08a'/><path d='M-15,-45 C-25,-60 0,-65 0,-45 C0,-65 25,-60 15,-45 Z' fill='%2322c55e'/></g><g transform='translate(260, 270) rotate(-20)'><path d='M0,-35 L25,15 L-25,15 Z' fill='%23f43f5e'/><path d='M-10,-35 C-20,-50 0,-55 0,-35 C0,-55 20,-50 10,-35 Z' fill='%2316a34a'/></g><g transform='translate(540, 280) rotate(25)'><path d='M0,-35 L25,15 L-25,15 Z' fill='%23f43f5e'/><path d='M-10,-35 C-20,-50 0,-55 0,-35 C0,-55 20,-50 10,-35 Z' fill='%2316a34a'/></g><polygon points='380,180 388,195 405,195 391,205 396,220 380,210 364,220 369,205 355,195 372,195' fill='%23fbbf24' opacity='0.9'/><polygon points='440,220 445,230 456,230 447,237 450,247 440,240 430,247 433,237 424,230 435,230' fill='%23fbbf24' opacity='0.8'/></g><text x='400' y='900' font-family='serif' font-size='32' font-weight='bold' fill='%23881337' text-anchor='middle'>Maison de Douceur</text><text x='400' y='935' font-family='sans-serif' font-size='18' letter-spacing='6' fill='%239f1239' text-anchor='middle'>LE NUAGE MACARON</text></svg>" 
+                                 alt="法式奢華馬卡龍草莓千層蛋糕" 
+                                 class="w-full h-full object-cover rounded-3xl shadow-2xl transition-all duration-700 hover:scale-105" />
+
+                            <!-- Soft Gradient Overlay -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-pink-950/50 via-transparent to-transparent opacity-60 pointer-events-none rounded-3xl"></div>
+
+                            <!-- Image Floating Ribbon Label -->
+                            <div class="absolute top-4 left-4 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-xs font-bold text-pink-700 shadow-md border border-pink-200/80 flex items-center gap-1.5 z-10">
+                                <span>🍓</span> 經典草莓粉紅馬卡龍款
+                            </div>
+
+                            <div class="absolute bottom-6 left-6 right-6 text-white text-left space-y-1 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/20 shadow-xl z-10">
+                                <span class="text-[10px] uppercase tracking-widest text-pink-200 font-bold">Chef's Handcrafted Masterpiece</span>
+                                <h3 class="text-lg font-bold font-serif text-white">雲朵草莓馬卡龍千層</h3>
+                                <p class="text-xs text-pink-100/90">特級馬達加斯加香草籽卡士達 & 鮮採有機草莓</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Accent Badge on Image -->
+                        <div class="absolute -bottom-2 -right-2 bg-gradient-to-tr from-amber-400 to-amber-200 text-amber-950 p-4 rounded-3xl shadow-xl font-bold text-center border-2 border-white rotate-3 z-20">
+                            <div class="text-xs font-semibold">限定贈禮</div>
+                            <div class="text-sm font-extrabold">燙金禮盒+卡片</div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Banner Section (Marquee Feature Highlights) -->
+        <section class="py-5 bg-gradient-to-r from-pink-100/80 via-purple-100/60 to-emerald-100/80 border-y border-pink-200/60 backdrop-blur-sm overflow-hidden relative">
+            <div class="flex whitespace-nowrap animate-marquee">
+                <div class="flex items-center space-x-12 text-sm font-bold tracking-widest text-macaron-cocoa/90 uppercase px-6">
+                    <span class="flex items-center gap-2">🌸 100% 法國伊斯尼 A.O.P. 發酵奶油</span>
+                    <span class="flex items-center gap-2">🍓 苗栗大湖農場每日新鮮直送有機草莓</span>
+                    <span class="flex items-center gap-2">✨ 72 層純手工極微脆派皮工藝</span>
+                    <span class="flex items-center gap-2">🍵 日本宇治丸久小山園頂級抹茶</span>
+                    <span class="flex items-center gap-2">❄️ -18°C 雙溫冷鏈全程直送到府</span>
+                </div>
+                <div class="flex items-center space-x-12 text-sm font-bold tracking-widest text-macaron-cocoa/90 uppercase px-6" aria-hidden="true">
+                    <span class="flex items-center gap-2">🌸 100% 法國伊斯尼 A.O.P. 發酵奶油</span>
+                    <span class="flex items-center gap-2">🍓 苗栗大湖農場每日新鮮直送有機草莓</span>
+                    <span class="flex items-center gap-2">✨ 72 層純手工極微脆派皮工藝</span>
+                    <span class="flex items-center gap-2">🍵 日本宇治丸久小山園頂級抹茶</span>
+                    <span class="flex items-center gap-2">❄️ -18°C 雙溫冷鏈全程直送到府</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Features & Craftsmanship (Bento Grid Layout) -->
+        <section id="craftsmanship" class="py-24 px-4 max-w-7xl mx-auto">
+            
+            <div class="text-center mb-16 space-y-3">
+                <p class="text-xs font-bold uppercase tracking-[0.3em] text-pink-600 font-serif">Artisanal Bakery Craftsmanship</p>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-macaron-cocoa font-serif">嚴選食材與極致烘焙工藝</h2>
+                <p class="text-macaron-cocoa/70 max-w-xl mx-auto text-sm sm:text-base">每一個蛋糕都是一幅可以品嚐的法式藝術品</p>
+            </div>
+
+            <!-- Bento Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- Feature 1: 72 Layers Craftsmanship (Large Card with Image) -->
+                <div class="bento-card md:col-span-2 rounded-3xl p-8 glass-card-macaron relative overflow-hidden flex flex-col justify-between group">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-2xl bg-pink-100 border border-pink-200 flex items-center justify-center text-pink-600">
+                                <i data-lucide="layers" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-macaron-cocoa font-serif">72 層手工微脆千層工藝</h3>
+                            <p class="text-macaron-cocoa/80 text-sm leading-relaxed">
+                                主廚經歷 16 小時低溫折疊發酵，將天然奶油與麵糰交織出薄如蟬翼的 72 層結構。經過精準火候烘烤，呈現輕盈酥脆與極致香氣。
+                            </p>
+                            <div class="flex items-center gap-4 text-xs font-semibold text-pink-700">
+                                <span class="px-3 py-1 rounded-full bg-pink-100">極薄派皮 0.2mm</span>
+                                <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800">濃郁奶香不甜膩</span>
+                            </div>
+                        </div>
+
+                        <div class="img-zoom-container rounded-2xl h-56 relative shadow-md">
+                            <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=800&q=80" 
+                                 alt="法式千層蛋糕層次細節" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/600x400/fbe2e8/4a2e2b?text=Layer+Details';" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 2: Isigny A.O.P Butter -->
+                <div class="bento-card rounded-3xl p-8 glass-card-macaron relative overflow-hidden flex flex-col justify-between bg-gradient-to-br from-amber-50 to-pink-50">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-600">
+                            <i data-lucide="award" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-macaron-cocoa font-serif">法國伊斯尼 A.O.P. 奶油</h3>
+                        <p class="text-macaron-cocoa/80 text-sm leading-relaxed">
+                            嚴選法國諾曼第最高品質奶油，得益於溫和海風與優質牧草，孕育出優雅綿密的榛果奶香。
+                        </p>
+                    </div>
+                    <div class="mt-6 p-4 rounded-2xl bg-white/80 border border-amber-200/60 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs text-amber-800 font-semibold block">原裝進口認證</span>
+                            <span class="text-xl font-black text-amber-600 font-serif">100% Pure A.O.P</span>
+                        </div>
+                        <i data-lucide="check-circle" class="w-8 h-8 text-amber-500"></i>
+                    </div>
+                </div>
+
+                <!-- Feature 3: Organic Strawberries & Fruits -->
+                <div class="bento-card rounded-3xl p-8 glass-card-macaron relative overflow-hidden flex flex-col justify-between bg-gradient-to-br from-pink-50 to-rose-50">
+                    <div class="space-y-4">
+                        <div class="w-12 h-12 rounded-2xl bg-rose-100 border border-rose-200 flex items-center justify-center text-rose-600">
+                            <i data-lucide="heart" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-macaron-cocoa font-serif">當季有機產地直送</h3>
+                        <p class="text-macaron-cocoa/80 text-sm leading-relaxed">
+                            每日晨曦時分採收苗栗大湖有機草莓與頂級無花果，顆顆飽滿自然甜酸，保留最純粹的果香汁液。
+                        </p>
+                    </div>
+                    <div class="mt-6 img-zoom-container h-36 rounded-2xl">
+                        <img src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?auto=format&fit=crop&w=600&q=80" 
+                             alt="新鮮有機草莓" 
+                             class="w-full h-full object-cover"
+                             onerror="this.onerror=null; this.src='https://placehold.co/600x300/fbe2e8/4a2e2b?text=Fresh+Strawberries';" />
+                    </div>
+                </div>
+
+                <!-- Feature 4: Cold-Chain Direct Delivery -->
+                <div class="bento-card md:col-span-2 rounded-3xl p-8 glass-card-macaron relative overflow-hidden flex flex-col justify-between bg-gradient-to-br from-emerald-50 to-teal-50">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+                        <div class="space-y-4">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-600">
+                                <i data-lucide="snowflake" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-macaron-cocoa font-serif">-18°C 雙溫冷鏈急速保鮮</h3>
+                            <p class="text-macaron-cocoa/80 text-sm leading-relaxed">
+                                專利急速冷凍技術完封出爐時的最佳口感與美味。搭配黑貓溫控宅急便全台宅配，送到您手中依然如剛剛落成般精緻無瑕。
+                            </p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 text-center">
+                            <div class="p-4 rounded-2xl bg-white/90 border border-emerald-200 shadow-sm">
+                                <div class="text-2xl font-extrabold text-emerald-600 font-serif">0%</div>
+                                <div class="text-xs font-semibold text-macaron-cocoa/70">防腐劑添加</div>
+                            </div>
+                            <div class="p-4 rounded-2xl bg-white/90 border border-emerald-200 shadow-sm">
+                                <div class="text-2xl font-extrabold text-emerald-600 font-serif">24H</div>
+                                <div class="text-xs font-semibold text-macaron-cocoa/70">新鮮黑貓送達</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Interactive Macaron Flavor Selection Showcase -->
+        <section id="flavors" class="py-24 px-4 bg-gradient-to-b from-fuchsia-50/50 via-pink-50/80 to-amber-50/40 relative">
+            <div class="max-w-6xl mx-auto text-center">
+                
+                <p class="text-xs font-bold uppercase tracking-[0.3em] text-pink-600 font-serif mb-2">Macaron Color & Flavor Palette</p>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-macaron-cocoa mb-4 font-serif">四款夢幻馬卡龍配色風味</h2>
+                <p class="text-macaron-cocoa/70 max-w-xl mx-auto mb-12 text-sm sm:text-base">點擊下方馬卡龍色彩卡片，探索主廚專屬調配的法式味蕾旋律。</p>
+
+                <!-- Dynamic Preview Card -->
+                <div class="max-w-2xl mx-auto rounded-3xl p-6 sm:p-8 glass-card-macaron border-2 border-white shadow-xl transition-all duration-500 mb-10 text-left grid grid-cols-1 sm:grid-cols-12 gap-6 items-center" id="flavor-preview-box">
+                    
+                    <!-- Dynamic Cake Visual Container with Realistic Photography -->
+                    <div class="sm:col-span-5 img-zoom-container h-64 sm:h-72 rounded-2xl relative shadow-md bg-gradient-to-br from-pink-100 to-amber-50 flex items-center justify-center p-0" id="flavor-card-img-container">
+                        <img id="flavor-card-img" 
+                             src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=800&q=80" 
+                             alt="馬卡龍蛋糕風味預覽" 
+                             class="w-full h-full object-cover rounded-2xl transition-all duration-500"
+                             onerror="this.onerror=null; this.src='https://placehold.co/600x600/fbe2e8/4a2e2b?text=Cake+Flavor+Photo';" />
+                        <span id="flavor-badge" class="absolute top-3 left-3 px-3 py-1 rounded-full text-[11px] font-bold bg-pink-500 text-white shadow-md z-10">
+                            人氣第一名
+                        </span>
+                    </div>
+
+                    <!-- Dynamic Details -->
+                    <div class="sm:col-span-7 space-y-4">
+                        <div>
+                            <div class="flex items-center space-x-1 text-amber-500 text-xs mb-1">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <span class="font-bold text-macaron-cocoa/80 ml-1">5.0 (680+ 好評)</span>
+                            </div>
+                            <h3 id="flavor-card-title" class="text-2xl font-bold text-macaron-cocoa font-serif">粉紅玫瑰草莓馬卡龍千層</h3>
+                        </div>
+
+                        <p id="flavor-card-desc" class="text-sm text-macaron-cocoa/80 leading-relaxed">
+                            苗栗大湖新鮮有機草莓、馬達加斯加香草籽卡士達醬與粉紅馬卡龍蛋白餅，帶來濃郁酸甜交織的優雅享受。
+                        </p>
+
+                        <div class="pt-2 flex items-center justify-between border-t border-pink-200/60">
+                            <div>
+                                <span class="text-xs text-macaron-cocoa/60 block">經典 6 吋售價</span>
+                                <span id="flavor-card-price" class="text-2xl font-black text-pink-600 font-serif">NT$ 1,280</span>
+                            </div>
+                            <button onclick="openOrderModal()" class="px-6 py-2.5 rounded-full text-xs font-bold bg-pink-500 hover:bg-pink-600 text-white shadow-md transition-all">
+                                預訂此風味
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Color & Flavor Switcher Buttons -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    
+                    <!-- Flavor 1: Rose Pink -->
+                    <button onclick="switchFlavor(
+                        '粉紅玫瑰草莓馬卡龍千層',
+                        '苗栗大湖新鮮有機草莓、馬達加斯加香草籽卡士達醬與粉紅馬卡龍蛋白餅，帶來濃郁酸甜交織的優雅享受。',
+                        'NT$ 1,280',
+                        'strawberry',
+                        '人氣第一名',
+                        this
+                    )" class="flavor-btn p-4 rounded-2xl bg-pink-100/80 border-2 border-pink-400 text-left transition-all hover:scale-105 shadow-sm">
+                        <div class="w-8 h-8 rounded-full bg-pink-400 mb-2 border-2 border-white shadow-inner flex items-center justify-center text-white text-xs">🍓</div>
+                        <div class="text-sm font-bold text-macaron-cocoa">粉紅玫瑰草莓</div>
+                        <div class="text-[11px] text-pink-700">經典夢幻酸甜</div>
+                    </button>
+
+                    <!-- Flavor 2: Pistachio Green -->
+                    <button onclick="switchFlavor(
+                        '開心果宇治抹茶馬卡龍千層',
+                        '日本宇治丸久小山園頂級抹茶卡士達，搭配西西里開心果碎粒與香濃抹茶馬卡龍，回甘無限。',
+                        'NT$ 1,380',
+                        'matcha',
+                        '主廚特別推薦',
+                        this
+                    )" class="flavor-btn p-4 rounded-2xl bg-emerald-50/80 border-2 border-transparent hover:border-emerald-300 text-left transition-all hover:scale-105 shadow-sm">
+                        <div class="w-8 h-8 rounded-full bg-emerald-400 mb-2 border-2 border-white shadow-inner flex items-center justify-center text-white text-xs">🍵</div>
+                        <div class="text-sm font-bold text-macaron-cocoa">開心果宇治抹茶</div>
+                        <div class="text-[11px] text-emerald-700">茶香回甘清爽</div>
+                    </button>
+
+                    <!-- Flavor 3: Lavender Cassis -->
+                    <button onclick="switchFlavor(
+                        '薰衣草黑嘉栗馬卡龍千層',
+                        '普羅旺斯有機薰衣草奶霜、法國黑嘉栗庫利果醬與紫色馬卡龍，呈現成熟優雅的夢幻紫色調。',
+                        'NT$ 1,480',
+                        'lavender',
+                        '奢華限量版',
+                        this
+                    )" class="flavor-btn p-4 rounded-2xl bg-purple-50/80 border-2 border-transparent hover:border-purple-300 text-left transition-all hover:scale-105 shadow-sm">
+                        <div class="w-8 h-8 rounded-full bg-purple-400 mb-2 border-2 border-white shadow-inner flex items-center justify-center text-white text-xs">🌸</div>
+                        <div class="text-sm font-bold text-macaron-cocoa">薰衣草黑嘉栗</div>
+                        <div class="text-[11px] text-purple-700">花香果香交織</div>
+                    </button>
+
+                    <!-- Flavor 4: Vanilla Salted Caramel -->
+                    <button onclick="switchFlavor(
+                        '法國鹽之花焦糖馬卡龍千層',
+                        '手工慢火熬煮海鹽焦糖醬、法國葛宏德鹽之花與黃金馬卡龍餅皮，鹹甜完美的微焦風味。',
+                        'NT$ 1,380',
+                        'caramel',
+                        '甜點控必嚐',
+                        this
+                    )" class="flavor-btn p-4 rounded-2xl bg-amber-50/80 border-2 border-transparent hover:border-amber-300 text-left transition-all hover:scale-105 shadow-sm">
+                        <div class="w-8 h-8 rounded-full bg-amber-400 mb-2 border-2 border-white shadow-inner flex items-center justify-center text-white text-xs">✨</div>
+                        <div class="text-sm font-bold text-macaron-cocoa">海鹽焦糖香草</div>
+                        <div class="text-[11px] text-amber-800">鹹甜層次豐富</div>
+                    </button>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Specifications & Size Guide Section -->
+        <section id="specifications" class="py-24 px-4 max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <p class="text-xs font-bold uppercase tracking-[0.3em] text-pink-600 font-serif mb-2">Size & Serving Guide</p>
+                <h3 class="text-3xl font-extrabold text-macaron-cocoa font-serif mb-3">尺寸規格與享用建議</h3>
+                <p class="text-macaron-cocoa/70 text-sm">挑選最適切的尺寸，為歡聚時光增添甜美記憶</p>
+            </div>
+
+            <div class="glass-card-macaron rounded-3xl overflow-hidden border border-pink-200/80 shadow-xl">
+                <div class="grid grid-cols-3 p-6 font-bold text-sm sm:text-base bg-pink-100/70 text-macaron-cocoa border-b border-pink-200">
+                    <div>規格項目</div>
+                    <div class="text-pink-700">6 吋（溫馨享用）</div>
+                    <div class="text-purple-700">8 吋（盛宴派對）</div>
+                </div>
+
+                <div class="divide-y divide-pink-100 text-xs sm:text-sm text-macaron-cocoa/80">
+                    <div class="grid grid-cols-3 p-6 items-center">
+                        <div class="font-semibold text-macaron-cocoa">建議享用人數</div>
+                        <div class="text-pink-600 font-bold">4 - 6 人</div>
+                        <div class="text-purple-600 font-bold">8 - 12 人</div>
+                    </div>
+                    <div class="grid grid-cols-3 p-6 items-center">
+                        <div class="font-semibold text-macaron-cocoa">蛋糕直徑</div>
+                        <div>約 15 cm</div>
+                        <div>約 20 cm</div>
+                    </div>
+                    <div class="grid grid-cols-3 p-6 items-center">
+                        <div class="font-semibold text-macaron-cocoa">附贈內容禮包</div>
+                        <div>精品餐叉盤組 (6入) + 燙金卡片</div>
+                        <div>精品餐叉盤組 (12入) + 專屬造型蠟燭</div>
+                    </div>
+                    <div class="grid grid-cols-3 p-6 items-center">
+                        <div class="font-semibold text-macaron-cocoa">最佳賞味期</div>
+                        <div>冷藏 3 天 / 冷凍 7 天</div>
+                        <div>冷藏 3 天 / 冷凍 7 天</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom CTA Section -->
+        <section class="py-28 px-4 relative overflow-hidden text-center bg-gradient-to-r from-pink-100 via-rose-100 to-amber-100 border-t border-pink-200">
+            <div class="max-w-4xl mx-auto relative z-10 space-y-6">
+                
+                <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center mx-auto shadow-md text-pink-500 animate-bounce">
+                    <i data-lucide="gift" class="w-8 h-8"></i>
+                </div>
+
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-macaron-cocoa font-serif">
+                    為重要的日子，獻上一份星級奢華甜美
+                </h2>
+                
+                <p class="text-macaron-cocoa/80 text-base sm:text-lg max-w-xl mx-auto">
+                    本月線上預訂，即免費享有精美法式緞帶燙金禮盒包裝與專屬客製手寫心意卡片服務。
+                </p>
+
+                <!-- Dual CTA Buttons Bottom -->
+                <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                    <button onclick="openOrderModal()" class="px-10 py-4 rounded-full text-sm font-bold bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white shadow-xl shadow-pink-500/30 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                        <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                        <span>立即預訂蛋糕</span>
+                    </button>
+                    
+                    <a href="#flavors" class="px-8 py-4 rounded-full text-sm font-bold bg-white hover:bg-pink-50 text-macaron-cocoa border border-pink-300 shadow-md transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="palette" class="w-4 h-4 text-pink-500"></i>
+                        <span>選擇馬卡龍風味</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-macaron-cocoa text-pink-100/70 text-xs py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pb-6 border-b border-pink-900/50">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded-xl bg-pink-400 flex items-center justify-center text-white font-bold font-serif">M</div>
+                    <span class="text-lg font-serif font-bold text-white">Maison de Douceur</span>
+                </div>
+                <p class="text-pink-200/60">所有蛋糕均為手工接單現做，請提前 3-5 天預訂。</p>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-pink-200/50">
+                <p>© 2026 Maison de Douceur Artisanal Bakery. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-pink-300">訂購與配送須知</a>
+                    <a href="#" class="hover:text-pink-300">隱私條款</a>
+                    <a href="#" class="hover:text-pink-300">冷鏈物流說明</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Order Modal (無 Alert) -->
+    <div id="order-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white w-full max-w-lg rounded-3xl p-6 sm:p-8 border border-pink-200 shadow-2xl relative transform scale-95 transition-transform duration-300" id="modal-card">
+            
+            <!-- Close Button -->
+            <button onclick="closeOrderModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-pink-100 text-pink-700 flex items-center justify-center hover:bg-pink-200 transition-all">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Modal Header -->
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-10 h-10 rounded-2xl bg-pink-100 flex items-center justify-center text-pink-600">
+                    <i data-lucide="cake" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-macaron-cocoa font-serif">預訂 Maison de Douceur 蛋糕</h3>
+                    <p class="text-xs text-macaron-cocoa/60">填寫規格完成線上客製預訂</p>
+                </div>
+            </div>
+
+            <!-- Modal Steps -->
+            <div class="space-y-5 text-left">
+                
+                <!-- 1. Flavor Selector -->
+                <div>
+                    <label class="block text-xs font-bold text-macaron-cocoa mb-1.5">1. 選擇馬卡龍蛋糕風味</label>
+                    <select id="modal-flavor-select" onchange="updateModalTotal()" class="w-full p-3 rounded-2xl bg-pink-50/60 border border-pink-200 text-macaron-cocoa text-sm font-medium focus:outline-none focus:border-pink-500">
+                        <option value="1280">粉紅玫瑰草莓馬卡龍千層 (NT$ 1,280)</option>
+                        <option value="1380">開心果宇治抹茶馬卡龍千層 (NT$ 1,380)</option>
+                        <option value="1480">薰衣草黑嘉栗馬卡龍千層 (NT$ 1,480)</option>
+                        <option value="1380">法國鹽之花焦糖馬卡龍千層 (NT$ 1,380)</option>
+                    </select>
+                </div>
+
+                <!-- 2. Size Option -->
+                <div>
+                    <label class="block text-xs font-bold text-macaron-cocoa mb-1.5">2. 選擇蛋糕尺寸</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="selectModalSize('6吋', 0, this)" class="modal-size-btn p-3 rounded-2xl border-2 border-pink-500 bg-pink-100/60 text-macaron-cocoa font-bold text-xs text-center">
+                            6 吋 (經典版)<br><span class="text-[10px] text-pink-700 font-normal">標準定價</span>
+                        </button>
+                        <button onclick="selectModalSize('8吋', 500, this)" class="modal-size-btn p-3 rounded-2xl border-2 border-gray-200 bg-gray-50 text-macaron-cocoa font-bold text-xs text-center hover:border-pink-300">
+                            8 吋 (歡聚版)<br><span class="text-[10px] text-gray-500 font-normal">+ NT$ 500</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. Add-ons -->
+                <div class="p-4 rounded-2xl bg-pink-50/50 border border-pink-100 space-y-2">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-macaron-cocoa font-medium">免費附贈手寫燙金心意卡片</span>
+                        <input type="checkbox" id="modal-card-check" checked class="w-4 h-4 accent-pink-500">
+                    </div>
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-macaron-cocoa font-medium">加購法式造型節慶蠟燭 (+NT$ 80)</span>
+                        <input type="checkbox" id="modal-candle-check" onchange="updateModalTotal()" class="w-4 h-4 accent-pink-500">
+                    </div>
+                </div>
+
+                <!-- Total Amount Summary -->
+                <div class="pt-3 border-t border-pink-100 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs text-macaron-cocoa/60 block">預估總結帳金額</span>
+                        <span id="modal-total-price" class="text-2xl font-black text-pink-600 font-serif">NT$ 1,280</span>
+                    </div>
+                    <button onclick="submitModalOrder()" class="px-7 py-3.5 rounded-full text-xs font-bold bg-pink-500 hover:bg-pink-600 text-white shadow-lg shadow-pink-300 transition-all transform hover:scale-105 active:scale-95">
+                        確認完成預訂
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Success Screen Overlay inside Modal -->
+            <div id="modal-success" class="absolute inset-0 bg-white rounded-3xl p-8 flex flex-col items-center justify-center text-center hidden z-20">
+                <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4">
+                    <i data-lucide="check-circle-2" class="w-10 h-10"></i>
+                </div>
+                <h4 class="text-2xl font-bold text-macaron-cocoa font-serif mb-2">預訂成功！</h4>
+                <p class="text-xs text-macaron-cocoa/80 mb-6 leading-relaxed">
+                    感謝您的訂購！主廚團隊已收到您的客製蛋糕需求，<br>預訂確認簡訊與配送通知已發送至您的手機。
+                </p>
+                <button onclick="closeOrderModal()" class="px-8 py-2.5 rounded-full text-xs font-bold bg-pink-500 text-white hover:bg-pink-600 transition-all">
+                    返回網頁
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const flavorImages = {
+            strawberry: {
+                url: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800' width='100%' height='100%'><defs><linearGradient id='bg1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23fce7f3'/><stop offset='100%' stop-color='%23fda4af'/></linearGradient><linearGradient id='m1' x1='0%' y1='0%' x2='0%' y2='100%'><stop offset='0%' stop-color='%23f472b6'/><stop offset='100%' stop-color='%23e11d48'/></linearGradient></defs><rect width='800' height='800' fill='url(%23bg1)'/><g transform='translate(400,400)'><circle cx='0' cy='0' r='260' fill='%23ffffff' opacity='0.8'/><path d='M-160,-30 C-160,-140 160,-140 160,-30 Z' fill='url(%23m1)'/><rect x='-165' y='-35' width='330' height='16' rx='8' fill='%239f1239' opacity='0.5'/><ellipse cx='0' cy='0' rx='150' ry='25' fill='%23fff1f2'/><path d='M-160,30 C-160,140 160,140 160,30 Z' fill='url(%23m1)'/><rect x='-165' y='20' width='330' height='16' rx='8' fill='%239f1239' opacity='0.5'/><circle cx='0' cy='-120' r='35' fill='%23f43f5e'/><circle cx='-70' cy='-90' r='28' fill='%23e11d48'/><circle cx='70' cy='-90' r='28' fill='%23e11d48'/><polygon points='0,-170 8,-155 25,-155 12,-145 16,-130 0,-140 -16,-130 -12,-145 -25,-155 -8,-155' fill='%23fbbf24'/></g><text x='400' y='720' font-family='serif' font-size='28' font-weight='bold' fill='%23881337' text-anchor='middle'>粉紅玫瑰草莓馬卡龍千層</text></svg>",
+                alt: '粉紅玫瑰草莓馬卡龍千層'
+            },
+            matcha: {
+                url: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800' width='100%' height='100%'><defs><linearGradient id='bg2' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23dcfce7'/><stop offset='100%' stop-color='%2386efac'/></linearGradient><linearGradient id='m2' x1='0%' y1='0%' x2='0%' y2='100%'><stop offset='0%' stop-color='%234ade80'/><stop offset='100%' stop-color='%2315803d'/></linearGradient></defs><rect width='800' height='800' fill='url(%23bg2)'/><g transform='translate(400,400)'><circle cx='0' cy='0' r='260' fill='%23ffffff' opacity='0.8'/><path d='M-160,-30 C-160,-140 160,-140 160,-30 Z' fill='url(%23m2)'/><rect x='-165' y='-35' width='330' height='16' rx='8' fill='%2314532d' opacity='0.5'/><ellipse cx='0' cy='0' rx='150' ry='25' fill='%23f0fdf4'/><path d='M-160,30 C-160,140 160,140 160,30 Z' fill='url(%23m2)'/><rect x='-165' y='20' width='330' height='16' rx='8' fill='%2314532d' opacity='0.5'/><circle cx='0' cy='-110' r='25' fill='%23fef08a'/><circle cx='-60' cy='-85' r='20' fill='%2386efac'/><circle cx='60' cy='-85' r='20' fill='%2386efac'/><path d='M-30,-150 C-10,-170 30,-170 10,-140 Z' fill='%2315803d'/></g><text x='400' y='720' font-family='serif' font-size='28' font-weight='bold' fill='%2314532d' text-anchor='middle'>開心果宇治抹茶馬卡龍千層</text></svg>",
+                alt: '開心果宇治抹茶馬卡龍千層'
+            },
+            lavender: {
+                url: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800' width='100%' height='100%'><defs><linearGradient id='bg3' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23f3e8ff'/><stop offset='100%' stop-color='%23c084fc'/></linearGradient><linearGradient id='m3' x1='0%' y1='0%' x2='0%' y2='100%'><stop offset='0%' stop-color='%23c084fc'/><stop offset='100%' stop-color='%237e22ce'/></linearGradient></defs><rect width='800' height='800' fill='url(%23bg3)'/><g transform='translate(400,400)'><circle cx='0' cy='0' r='260' fill='%23ffffff' opacity='0.8'/><path d='M-160,-30 C-160,-140 160,-140 160,-30 Z' fill='url(%23m3)'/><rect x='-165' y='-35' width='330' height='16' rx='8' fill='%23581c87' opacity='0.5'/><ellipse cx='0' cy='0' rx='150' ry='25' fill='%23faf5ff'/><path d='M-160,30 C-160,140 160,140 160,30 Z' fill='url(%23m3)'/><rect x='-165' y='20' width='330' height='16' rx='8' fill='%23581c87' opacity='0.5'/><circle cx='0' cy='-110' r='22' fill='%233b0764'/><circle cx='-50' cy='-90' r='18' fill='%23581c87'/><circle cx='50' cy='-90' r='18' fill='%23581c87'/><path d='M0,-160 C15,-180 -15,-180 0,-140 Z' fill='%23e9d5ff'/></g><text x='400' y='720' font-family='serif' font-size='28' font-weight='bold' fill='%23581c87' text-anchor='middle'>薰衣草黑嘉栗馬卡龍千層</text></svg>",
+                alt: '薰衣草黑嘉栗馬卡龍千層'
+            },
+            caramel: {
+                url: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800' width='100%' height='100%'><defs><linearGradient id='bg4' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23fef3c7'/><stop offset='100%' stop-color='%23fde047'/></linearGradient><linearGradient id='m4' x1='0%' y1='0%' x2='0%' y2='100%'><stop offset='0%' stop-color='%23fbbf24'/><stop offset='100%' stop-color='%23b45309'/></linearGradient></defs><rect width='800' height='800' fill='url(%23bg4)'/><g transform='translate(400,400)'><circle cx='0' cy='0' r='260' fill='%23ffffff' opacity='0.8'/><path d='M-160,-30 C-160,-140 160,-140 160,-30 Z' fill='url(%23m4)'/><rect x='-165' y='-35' width='330' height='16' rx='8' fill='%2378350f' opacity='0.5'/><ellipse cx='0' cy='0' rx='150' ry='25' fill='%23fffbeb'/><path d='M-160,30 C-160,140 160,140 160,30 Z' fill='url(%23m4)'/><rect x='-165' y='20' width='330' height='16' rx='8' fill='%2378350f' opacity='0.5'/><path d='M-80,-100 Q0,-140 80,-100 Q0,-80 -80,-100 Z' fill='%23d97706'/><polygon points='0,-140 6,-125 20,-125 10,-115 14,-100 0,-110 -14,-100 -10,-115 -20,-125 -6,-125' fill='%23ffffff'/></g><text x='400' y='720' font-family='serif' font-size='28' font-weight='bold' fill='%2378350f' text-anchor='middle'>法國鹽之花焦糖馬卡龍千層</text></svg>",
+                alt: '法國鹽之花焦糖馬卡龍千層'
+            }
+        };
+
+        function switchFlavor(title, desc, price, flavorType, badge, btnEl) {
+            document.getElementById('flavor-card-title').textContent = title;
+            document.getElementById('flavor-card-desc').textContent = desc;
+            document.getElementById('flavor-card-price').textContent = price;
+            
+            const imgData = flavorImages[flavorType] || flavorImages.strawberry;
+            const imgEl = document.getElementById('flavor-card-img');
+            if (imgEl) {
+                imgEl.src = imgData.url;
+                imgEl.alt = imgData.alt;
+            }
+            const badgeEl = document.getElementById('flavor-badge');
+            if (badgeEl) {
+                badgeEl.textContent = badge;
+            }
+            
+            // Reset button styles
+            document.querySelectorAll('.flavor-btn').forEach(btn => {
+                btn.classList.remove('border-pink-400', 'border-emerald-300', 'border-purple-300', 'border-amber-300');
+                btn.classList.add('border-transparent');
+            });
+
+            // Highlight active button
+            if (btnEl) {
+                btnEl.classList.remove('border-transparent');
+                btnEl.classList.add('border-pink-400');
+            }
+        }
+
+        // Initialize default flavor visual
+        window.addEventListener('DOMContentLoaded', () => {
+            switchFlavor(
+                '粉紅玫瑰草莓馬卡龍千層',
+                '苗栗大湖新鮮有機草莓、馬達加斯加香草籽卡士達醬與粉紅馬卡龍蛋白餅，帶來濃郁酸甜交織的優雅享受。',
+                'NT$ 1,280',
+                'strawberry',
+                '人氣第一名',
+                document.querySelector('.flavor-btn')
+            );
+            lucide.createIcons();
+        });
+    </script>
